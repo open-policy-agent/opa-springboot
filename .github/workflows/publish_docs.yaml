@@ -1,11 +1,14 @@
-name: "02 - Publish Docs"
-on:
+name: "Publish Docs"
+"on":
   workflow_dispatch:
   push:
     branches:
       - main
     paths:
       - CHANGELOG.md
+
+permissions:
+  contents: read
 
 jobs:
   docs:

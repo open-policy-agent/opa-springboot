@@ -1,7 +1,11 @@
-name: "01 - Run unit tests and lint Java code"
-on:
+name: "Run unit tests and lint Java code"
+"on":
   workflow_dispatch:
   pull_request:
+
+permissions:
+  contents: read
+  checks: write
 
 jobs:
   test_and_lint:
