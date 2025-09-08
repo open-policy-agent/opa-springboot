@@ -1,15 +1,15 @@
 # How To Add the OPA Spring Boot SDK to an Existing Spring Application
 
-This guide explains how you can add the [OPA Spring Boot SDK](https://github.com/StyraInc/opa-springboot) to an existing Spring application in order to implement HTTP request authorization. For full usage options, consult the repository [README](https://github.com/StyraInc/opa-springboot?tab=readme-ov-file#sdk-example-usage).
+This guide explains how you can add the [OPA Spring Boot SDK](https://github.com/open-policy-agent/opa-springboot) to an existing Spring application in order to implement HTTP request authorization. For full usage options, consult the repository [README](https://github.com/open-policy-agent/opa-springboot?tab=readme-ov-file#sdk-example-usage).
 
 ## Overview
 
-The OPA Spring Boot SDK wraps the [OPA Java SDK](https://github.com/StyraInc/opa-java/) with the [`OPAAuthorizationManager`](https://styrainc.github.io/opa-springboot/javadoc/com/styra/opa/springboot/OPAAuthorizationManager.html) class, which implements Spring's [`AuthorizationManager`](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/authorization/AuthorizationManager.html) interface, allowing it to be utilized with [Spring's `HttpSecurity`](https://docs.spring.io/spring-security/reference/servlet/authorization/authorize-http-requests.html). In this guide, you will learn:
+The OPA Spring Boot SDK wraps the [OPA Java SDK](https://github.com/open-policy-agent/opa-java/) with the [`OPAAuthorizationManager`](https://open-policy-agent.github.io/opa-springboot/javadoc/org/openpolicyagent/opa/springboot/OPAAuthorizationManager.html) class, which implements Spring's [`AuthorizationManager`](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/authorization/AuthorizationManager.html) interface, allowing it to be utilized with [Spring's `HttpSecurity`](https://docs.spring.io/spring-security/reference/servlet/authorization/authorize-http-requests.html). In this guide, you will learn:
 
 - How to add the OPA Spring Boot SDK as a dependency for your application.
 - How to configure the `OPAAuthorizationManager` type for your application.
 - How to add the `OPAAuthorizationManager` to your security configuration.
-- How to inject application-specific information into your OPA requests using the [`ContextDataProvider`](https://styrainc.github.io/opa-springboot/javadoc/com/styra/opa/springboot/ContextDataProvider.html) interface.
+- How to inject application-specific information into your OPA requests using the [`ContextDataProvider`](https://open-policy-agent.github.io/opa-springboot/javadoc/org/openpolicyagent/opa/springboot/ContextDataProvider.html) interface.
 
 This guide is intended for developers who are already comfortable working in Java with Spring. If you would like to learn more about spring, consider their [Getting Started](https://docs.spring.io/spring-security/reference/index.html#_getting_started) page.
 
@@ -21,12 +21,12 @@ This guide is intended for developers who are already comfortable working in Jav
 
 ## Adding the OPA Spring Boot SDK to your Project
 
-Follow the instructions on the [Maven Central Repository page for the `com.styra.opa/springboot`](https://central.sonatype.com/artifact/com.styra.opa/springboot) to add the OPA Spring Boot SDK as a dependency.
+Follow the instructions on the [Maven Central Repository page for the `org.openpolicyagent.opa/springboot`](https://central.sonatype.com/artifact/org.openpolicyagent.opa/springboot) to add the OPA Spring Boot SDK as a dependency.
 
 Here are two examples of using the OPA Spring Boot SDK in Gradle based projects:
 
-- [`build.gradle` for `opa-springboot-demo`](https://github.com/StyraInc/opa-sdk-demos/blob/main/opa-springboot-demo/after/build.gradle#L27)
-- [`build.gradle` for TicketHub demo](https://github.com/StyraInc/styra-demo-tickethub/blob/main/server/springboot/build.gradle#L39)
+- [`build.gradle` for `opa-springboot-demo`](https://github.com/open-policy-agent/opa-sdk-demos/blob/main/opa-springboot-demo/after/build.gradle#L27)
+- [`build.gradle` for TicketHub demo](https://github.com/styrainc/styra-demo-tickethub/blob/main/server/springboot/build.gradle#L39)
 
 ## Configuring `OPAAuthorizationManager`
 
@@ -64,7 +64,7 @@ The following code snippet shows a minimal security configuration that only sets
 ```java
 package com.example;
 
-import com.styra.opa.springboot.OPAAuthorizationManager;
+import org.openpolicyagent.opa.springboot.OPAAuthorizationManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authorization.AuthorizationManager;
@@ -93,8 +93,8 @@ public class SecurityConfig {
 
 Here are some examples of adding an `OPAAuthorizationManager` to a Spring security configuration:
 
-- [`opa-springboot-demo` `WebConfig.java`](https://github.com/StyraInc/opa-sdk-demos/blob/bff96964338e61b88bbfe90029a14bf2039f2d67/opa-springboot-demo/after/src/main/java/com/example/demo/WebConfig.java#L40)
-- [TicketHub demo `SecurityConfig.java`](https://github.com/StyraInc/styra-demo-tickethub/blob/7a5b18000734de9a1d41a24290d500857104e1a0/server/springboot/src/main/java/com/styra/tickethub_springboot/dao/model/SecurityConfig.java#L59)
+- [`opa-springboot-demo` `WebConfig.java`](https://github.com/open-policy-agent/opa-sdk-demos/blob/bff96964338e61b88bbfe90029a14bf2039f2d67/opa-springboot-demo/after/src/main/java/com/example/demo/WebConfig.java#L40)
+- [TicketHub demo `SecurityConfig.java`](https://github.com/styrainc/styra-demo-tickethub/blob/7a5b18000734de9a1d41a24290d500857104e1a0/server/springboot/src/main/java/com/styra/tickethub_springboot/dao/model/SecurityConfig.java#L59)
 
 ## Injecting Application-Specific Data using OPA Input Customizers
 
@@ -123,9 +123,9 @@ must at least contain `type` and `id` keys with not-null values, though their va
 Example `OPAInputSubjectCustomizer` bean:
 
 ```java
-import static com.styra.opa.springboot.input.InputConstants.SUBJECT;
-import static com.styra.opa.springboot.input.InputConstants.SUBJECT_AUTHORITIES;
-import static com.styra.opa.springboot.input.InputConstants.SUBJECT_TYPE;
+import static org.openpolicyagent.opa.springboot.input.InputConstants.SUBJECT;
+import static org.openpolicyagent.opa.springboot.input.InputConstants.SUBJECT_AUTHORITIES;
+import static org.openpolicyagent.opa.springboot.input.InputConstants.SUBJECT_TYPE;
 
 @Configuration
 public class OPAConfig {
@@ -150,8 +150,8 @@ map must at least contain `type` and `id` keys with not-null values, though thei
 Example `OPAInputResourceCustomizer` bean:
 
 ```java
-import static com.styra.opa.springboot.input.InputConstants.RESOURCE;
-import static com.styra.opa.springboot.input.InputConstants.RESOURCE_TYPE;
+import static org.openpolicyagent.opa.springboot.input.InputConstants.RESOURCE;
+import static org.openpolicyagent.opa.springboot.input.InputConstants.RESOURCE_TYPE;
 
 @Configuration
 public class OPAConfig {
@@ -175,9 +175,9 @@ must at least contain `name` key with a not-null value, though its value could b
 Example `OPAInputActionCustomizer` bean:
 
 ```java
-import static com.styra.opa.springboot.input.InputConstants.ACTION;
-import static com.styra.opa.springboot.input.InputConstants.ACTION_HEADERS;
-import static com.styra.opa.springboot.input.InputConstants.ACTION_NAME;
+import static org.openpolicyagent.opa.springboot.input.InputConstants.ACTION;
+import static org.openpolicyagent.opa.springboot.input.InputConstants.ACTION_HEADERS;
+import static org.openpolicyagent.opa.springboot.input.InputConstants.ACTION_NAME;
 
 @Configuration
 public class OPAConfig {
@@ -203,8 +203,8 @@ could be modified.
 Example `OPAInputContextCustomizer` bean which makes `context` null (removes it from `input` map):
 
 ```java
-import static com.styra.opa.springboot.input.InputConstants.CONTEXT;
-import static com.styra.opa.springboot.input.InputConstants.CONTEXT_TYPE;
+import static org.openpolicyagent.opa.springboot.input.InputConstants.CONTEXT;
+import static org.openpolicyagent.opa.springboot.input.InputConstants.CONTEXT_TYPE;
 
 @Configuration
 public class OPAConfig {

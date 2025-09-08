@@ -38,7 +38,7 @@ repositories {
 javadoc {
     options.addBooleanOption("Xdoclint:-missing", true)
     options.links += [
-        "https://styrainc.github.io/opa-java/javadoc/",
+        "https://open-policy-agent.github.io/opa-java/javadoc/",
         "https://docs.spring.io/spring-security/site/docs/current/api/",
         "https://docs.spring.io/spring-boot/api/java/",
     ]
@@ -58,14 +58,14 @@ dependencies {
     testImplementation 'org.testcontainers:testcontainers:1.19.8'
     testImplementation 'org.testcontainers:junit-jupiter:1.19.8'
 
-    api group: 'com.styra', name: 'opa', version: '1.8.0'
+    api group: 'org.openpolicyagent', name: 'opa', version: '1.8.0'
 
     compileOnly 'org.projectlombok:lombok:1.18.34'
     annotationProcessor 'org.projectlombok:lombok:1.18.34'
 }
 
 apply plugin: 'application'
-mainClassName = 'com.styra.opa.springboot'
+mainClassName = 'org.openpolicyagent.opa.springboot'
 
 tasks.named('test') {
     useJUnitPlatform()
@@ -95,7 +95,7 @@ task lint {
 
 test {
     useJUnitPlatform()
-    exclude 'com/styra/opa/springboot/autoconfigure/properties/ModifiedSystemEnvOPAPropertiesTest.class'
+    exclude 'org/openpolicyagent/opa/springboot/autoconfigure/properties/ModifiedSystemEnvOPAPropertiesTest.class'
     testLogging {
         // uncomment for more verbose output during development
         //events "passed", "skipped", "failed", "standard_out", "standard_error"
@@ -104,7 +104,7 @@ test {
 tasks.register("testModifiedSystemEnvProperties", Test) {
     useJUnitPlatform()
     group = "verification"
-    include 'com/styra/opa/springboot/autoconfigure/properties/ModifiedSystemEnvOPAPropertiesTest.class'
+    include 'org/openpolicyagent/opa/springboot/autoconfigure/properties/ModifiedSystemEnvOPAPropertiesTest.class'
     doFirst {
         systemProperty 'opa.url', 'http://localhost:8183'
         environment 'OPA_PATH', 'foo/bar2'
@@ -155,11 +155,11 @@ publishing {
 
             pom {
                 name = 'OPA Spring Boot SDK'
-                description = 'The Styra-supported driver to connect Spring Boot applications to Open Policy Agent (OPA) and Enterprise OPA deployments'
-                url = 'https://github.com/styrainc/opa-springboot'
+                description = 'A driver to connect Spring Boot applications to Open Policy Agent (OPA) and EOPA deployments'
+                url = 'https://github.com/open-policy-agent/opa-springboot'
                 scm {
-                    url = 'github.com/styrainc/opa-springboot'
-                    connection = 'scm:git:ssh://git@github.com/styrainc/opa-springboot.git'
+                    url = 'github.com/open-policy-agent/opa-springboot'
+                    connection = 'scm:git:ssh://git@github.com/open-policy-agent/opa-springboot.git'
                 }
                 licenses {
                     license {
@@ -169,14 +169,14 @@ publishing {
                 }
                 developers {
                     developer {
-                        name = 'Styra'
-                        organization = 'Styra'
-                        email = 'devrel@styra.com'
+                        name = 'The OPA Authors'
+                        organization = 'Open Policy Agent'
+                        email = 'open-policy-agent@googlegroups.com'
                     }
                 }
                 organization {
-                    name = 'Styra'
-                    url = 'www.styra.com'
+                    name = 'Open Policy Agent'
+                    url = 'www.openpolicyagent.org'
                 }
             }
         }
