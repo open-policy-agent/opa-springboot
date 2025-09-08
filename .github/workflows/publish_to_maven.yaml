@@ -1,11 +1,15 @@
-name: "03 - Publish to Maven Central"
-on:
+name: "Publish to Maven Central"
+"on":
   workflow_dispatch:
   push:
     branches:
       - main
     paths:
       - CHANGELOG.md
+
+permissions:
+  contents: read
+  checks: write
 
 jobs:
   publish:
