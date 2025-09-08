@@ -16,7 +16,7 @@
 3. Update `CHANGELOG.md` to reflect changes made since the last version.
 4. Create a PR for the release. Merge it once tests pass.
 5. GitHub Actions should automatically update the docs site to reflect the release, and publish a staging repository to Maven Central.
-6. Use the OSSRH portal to publish the release to Maven Central, see [this doc for instructions](https://styrainc.github.io/opa-java/maintenance/releases/).
+6. Use the OSSRH portal to publish the release to Maven Central, see [this doc for instructions](https://open-policy-agent.github.io/opa-java/maintenance/releases/).
 7. Tag the release. Tags should follow semver conventions and be formatted as `v$MAJOR.$MINOR.$PATCH`.
 8. Create a GitHub release, copy-paste the relevant section of the changelog into it.
 9. Delete the release branch.
