@@ -23,7 +23,7 @@ jobs:
           distribution: "corretto"
           cache: "gradle"
         if: ${{ steps.build.outputs.release  == 'true' }}
-      - uses: gradle/actions/setup-gradle@v4
+      - uses: gradle/actions/setup-gradle@v5
         if: ${{ steps.build.outputs.release  == 'true' }}
       - run: ./scripts/build_docs.sh ./build/docsite
         if: ${{ steps.build.outputs.release  == 'true' }}
