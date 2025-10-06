@@ -21,7 +21,7 @@ This guide is intended for developers who are already comfortable working in Jav
 
 ## Adding the OPA Spring Boot SDK to your Project
 
-Follow the instructions on the [Maven Central Repository page for the `org.openpolicyagent.opa/springboot`](https://central.sonatype.com/artifact/org.openpolicyagent.opa/springboot) to add the OPA Spring Boot SDK as a dependency.
+Follow the instructions on the [Maven Central Repository page for the `io.github.open-policy-agent.opa/springboot`](https://central.sonatype.com/artifact/io.github.open-policy-agent.opa/springboot) to add the OPA Spring Boot SDK as a dependency.
 
 Here are two examples of using the OPA Spring Boot SDK in Gradle based projects:
 
@@ -64,7 +64,7 @@ The following code snippet shows a minimal security configuration that only sets
 ```java
 package com.example;
 
-import org.openpolicyagent.opa.springboot.OPAAuthorizationManager;
+import io.github.open_policy_agent.opa.springboot.OPAAuthorizationManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authorization.AuthorizationManager;
@@ -123,9 +123,9 @@ must at least contain `type` and `id` keys with not-null values, though their va
 Example `OPAInputSubjectCustomizer` bean:
 
 ```java
-import static org.openpolicyagent.opa.springboot.input.InputConstants.SUBJECT;
-import static org.openpolicyagent.opa.springboot.input.InputConstants.SUBJECT_AUTHORITIES;
-import static org.openpolicyagent.opa.springboot.input.InputConstants.SUBJECT_TYPE;
+import static io.github.open_policy_agent.opa.springboot.input.InputConstants.SUBJECT;
+import static io.github.open_policy_agent.opa.springboot.input.InputConstants.SUBJECT_AUTHORITIES;
+import static io.github.open_policy_agent.opa.springboot.input.InputConstants.SUBJECT_TYPE;
 
 @Configuration
 public class OPAConfig {
@@ -150,8 +150,8 @@ map must at least contain `type` and `id` keys with not-null values, though thei
 Example `OPAInputResourceCustomizer` bean:
 
 ```java
-import static org.openpolicyagent.opa.springboot.input.InputConstants.RESOURCE;
-import static org.openpolicyagent.opa.springboot.input.InputConstants.RESOURCE_TYPE;
+import static io.github.open_policy_agent.opa.springboot.input.InputConstants.RESOURCE;
+import static io.github.open_policy_agent.opa.springboot.input.InputConstants.RESOURCE_TYPE;
 
 @Configuration
 public class OPAConfig {
@@ -175,9 +175,9 @@ must at least contain `name` key with a not-null value, though its value could b
 Example `OPAInputActionCustomizer` bean:
 
 ```java
-import static org.openpolicyagent.opa.springboot.input.InputConstants.ACTION;
-import static org.openpolicyagent.opa.springboot.input.InputConstants.ACTION_HEADERS;
-import static org.openpolicyagent.opa.springboot.input.InputConstants.ACTION_NAME;
+import static io.github.open_policy_agent.opa.springboot.input.InputConstants.ACTION;
+import static io.github.open_policy_agent.opa.springboot.input.InputConstants.ACTION_HEADERS;
+import static io.github.open_policy_agent.opa.springboot.input.InputConstants.ACTION_NAME;
 
 @Configuration
 public class OPAConfig {
@@ -203,8 +203,8 @@ could be modified.
 Example `OPAInputContextCustomizer` bean which makes `context` null (removes it from `input` map):
 
 ```java
-import static org.openpolicyagent.opa.springboot.input.InputConstants.CONTEXT;
-import static org.openpolicyagent.opa.springboot.input.InputConstants.CONTEXT_TYPE;
+import static io.github.open_policy_agent.opa.springboot.input.InputConstants.CONTEXT;
+import static io.github.open_policy_agent.opa.springboot.input.InputConstants.CONTEXT_TYPE;
 
 @Configuration
 public class OPAConfig {

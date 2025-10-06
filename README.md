@@ -10,7 +10,7 @@ You can use the OPA Spring Boot SDK to connect [Open Policy Agent](https://www.o
 
 ## SDK Installation
 
-This package is published on Maven Central as [`org.openpolicyagent.opa:springboot`](https://central.sonatype.com/artifact/org.openpolicyagent.opa/springboot). The Maven Central page includes up-to-date instructions to add it as a dependency to your Java project, tailored to a variety of build systems including Maven and Gradle.
+This package is published on Maven Central as [`io.github.open-policy-agent.opa:springboot`](https://central.sonatype.com/artifact/io.github.open-policy-agent.opa/springboot). The Maven Central page includes up-to-date instructions to add it as a dependency to your Java project, tailored to a variety of build systems including Maven and Gradle.
 
 If you wish to build from source and publish the SDK artifact to your local Maven repository (on your filesystem) then use the following command (after cloning the git repo locally):
 
@@ -31,7 +31,7 @@ gradlew.bat publishToMavenLocal -"Pskip.signing"
 Using `OPAAuthorizationManager`, HTTP requests could be authorized:
 
 ```java
-import org.openpolicyagent.opa.springboot.OPAAuthorizationManager;
+import io.github.open_policy_agent.opa.springboot.OPAAuthorizationManager;
 
 @Configuration
 @EnableWebSecurity
@@ -56,7 +56,7 @@ A custom `OPAClient` bean could be defined to send custom headers to the OPA ser
 `org.openpolicyagent.opa.openapi.utils.HTTPClient`, such as:
 
 ```java
-import org.openpolicyagent.opa.OPAClient;
+import io.github.open_policy_agent.opa.OPAClient;
 
 @Configuration
 public class OPAConfig {
@@ -140,9 +140,9 @@ must at least contain `type` and `id` keys with not-null values, though their va
 
 Example `OPAInputSubjectCustomizer` bean:
 ```java
-import static org.openpolicyagent.opa.springboot.input.InputConstants.SUBJECT;
-import static org.openpolicyagent.opa.springboot.input.InputConstants.SUBJECT_AUTHORITIES;
-import static org.openpolicyagent.opa.springboot.input.InputConstants.SUBJECT_TYPE;
+import static io.github.open_policy_agent.opa.springboot.input.InputConstants.SUBJECT;
+import static io.github.open_policy_agent.opa.springboot.input.InputConstants.SUBJECT_AUTHORITIES;
+import static io.github.open_policy_agent.opa.springboot.input.InputConstants.SUBJECT_TYPE;
 
 @Configuration
 public class OPAConfig {
@@ -165,8 +165,8 @@ map must at least contain `type` and `id` keys with not-null values, though thei
 
 Example `OPAInputResourceCustomizer` bean:
 ```java
-import static org.openpolicyagent.opa.springboot.input.InputConstants.RESOURCE;
-import static org.openpolicyagent.opa.springboot.input.InputConstants.RESOURCE_TYPE;
+import static io.github.open_policy_agent.opa.springboot.input.InputConstants.RESOURCE;
+import static io.github.open_policy_agent.opa.springboot.input.InputConstants.RESOURCE_TYPE;
 
 @Configuration
 public class OPAConfig {
@@ -188,9 +188,9 @@ must at least contain `name` key with a not-null value, though its value could b
 
 Example `OPAInputActionCustomizer` bean:
 ```java
-import static org.openpolicyagent.opa.springboot.input.InputConstants.ACTION;
-import static org.openpolicyagent.opa.springboot.input.InputConstants.ACTION_HEADERS;
-import static org.openpolicyagent.opa.springboot.input.InputConstants.ACTION_NAME;
+import static io.github.open_policy_agent.opa.springboot.input.InputConstants.ACTION;
+import static io.github.open_policy_agent.opa.springboot.input.InputConstants.ACTION_HEADERS;
+import static io.github.open_policy_agent.opa.springboot.input.InputConstants.ACTION_NAME;
 
 @Configuration
 public class OPAConfig {
@@ -214,8 +214,8 @@ could be modified.
 
 Example `OPAInputContextCustomizer` bean which makes `context` null (removes it from `input` map):
 ```java
-import static org.openpolicyagent.opa.springboot.input.InputConstants.CONTEXT;
-import static org.openpolicyagent.opa.springboot.input.InputConstants.CONTEXT_TYPE;
+import static io.github.open_policy_agent.opa.springboot.input.InputConstants.CONTEXT;
+import static io.github.open_policy_agent.opa.springboot.input.InputConstants.CONTEXT_TYPE;
 
 @Configuration
 public class OPAConfig {
@@ -272,7 +272,7 @@ Example `AccessDeniedHandler` bean to handle `OPAAccessDeniedException` and gene
 [RFC 9457 - Problem Details for HTTP APIs](https://datatracker.ietf.org/doc/html/rfc9457):
 ```java
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.openpolicyagent.opa.springboot.authorization.OPAAccessDeniedException;
+import io.github.open_policy_agent.opa.springboot.authorization.OPAAccessDeniedException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandlerImpl;
 

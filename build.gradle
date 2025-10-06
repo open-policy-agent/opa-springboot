@@ -58,14 +58,14 @@ dependencies {
     testImplementation 'org.testcontainers:testcontainers:1.19.8'
     testImplementation 'org.testcontainers:junit-jupiter:1.19.8'
 
-    api group: 'org.openpolicyagent', name: 'opa', version: '1.8.0'
+    api group: 'io.github.open-policy-agent', name: 'opa', version: '2.1.1'
 
     compileOnly 'org.projectlombok:lombok:1.18.34'
     annotationProcessor 'org.projectlombok:lombok:1.18.34'
 }
 
 apply plugin: 'application'
-mainClassName = 'org.openpolicyagent.opa.springboot'
+mainClassName = 'io.github.open_policy_agent.opa.springboot'
 
 tasks.named('test') {
     useJUnitPlatform()
@@ -95,7 +95,7 @@ task lint {
 
 test {
     useJUnitPlatform()
-    exclude 'org/openpolicyagent/opa/springboot/autoconfigure/properties/ModifiedSystemEnvOPAPropertiesTest.class'
+    exclude 'io/github/open_policy_agent/opa/springboot/autoconfigure/properties/ModifiedSystemEnvOPAPropertiesTest.class'
     testLogging {
         // uncomment for more verbose output during development
         //events "passed", "skipped", "failed", "standard_out", "standard_error"
@@ -104,7 +104,7 @@ test {
 tasks.register("testModifiedSystemEnvProperties", Test) {
     useJUnitPlatform()
     group = "verification"
-    include 'org/openpolicyagent/opa/springboot/autoconfigure/properties/ModifiedSystemEnvOPAPropertiesTest.class'
+    include 'io/github/open_policy_agent/opa/springboot/autoconfigure/properties/ModifiedSystemEnvOPAPropertiesTest.class'
     doFirst {
         systemProperty 'opa.url', 'http://localhost:8183'
         environment 'OPA_PATH', 'foo/bar2'
