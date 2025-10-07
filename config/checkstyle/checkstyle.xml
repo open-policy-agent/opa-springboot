@@ -103,7 +103,7 @@ and used under MIT license:
       <property name="groups" value="*,javax,java"/>
       <property name="ordered" value="true"/>
       <property name="separated" value="true"/>
-      <property name="option" value="bottom"/>
+      <property name="option" value="top"/>
       <property name="sortStaticImportsAlphabetically" value="true"/>
     </module>
     <module name="RedundantImport" />
@@ -134,7 +134,7 @@ and used under MIT license:
       <!--
       *** ensure packages start with a lowercase letter and only contain lowercase letters or numbers
       -->
-      <property name="format" value="^[a-z]+(\.[a-z][a-z0-9]*)*$" />
+      <property name="format" value="^[a-z]+(\.[a-z][a-z0-9_]*)*$" />
     </module>
     <module name="ParameterName" />
     <module name="StaticVariableName" />

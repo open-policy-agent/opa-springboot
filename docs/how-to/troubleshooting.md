@@ -5,11 +5,11 @@
 The OPA Spring Boot SDK uses Spring's built in logging facilities. To get the most verbose logging from the OPA Spring Boot SDK, add the following to your `application.properties` file:
 
 ```properties
-logging.level.com.styra.opa.springboot=TRACE
+logging.level.org.openpolicyagent.opa.springboot=TRACE
 ```
 
 > [!NOTE]
-> Is there something you'd like to see the OPA Spring Boot SDK include in its logs? Feel free to open an issue [on the issue tracker](https://github.com/StyraInc/opa-springboot/issues).
+> Is there something you'd like to see the OPA Spring Boot SDK include in its logs? Feel free to open an issue [on the issue tracker](https://github.com/open-policy-agent/opa-springboot/issues).
 
 ## OPA Connectivity Issues
 
@@ -19,25 +19,25 @@ If the dependent OPA Java SDK is not able to connect to an OPA you may see excep
 java.net.ConnectException
         at java.net.http/jdk.internal.net.http.HttpClientImpl.send(HttpClientImpl.java:573)
         at java.net.http/jdk.internal.net.http.HttpClientFacade.send(HttpClientFacade.java:123)
-        at com.styra.opa.openapi.utils.SpeakeasyHTTPClient.send(SpeakeasyHTTPClient.java:20)
-        at com.styra.opa.openapi.OpaApiClient.executePolicyWithInput(OpaApiClient.java:508)
-        at com.styra.opa.openapi.models.operations.ExecutePolicyWithInputRequestBuilder.call(ExecutePolicyWithInputRequestBuilder.java:37)
-        at com.styra.opa.OPAClient.executePolicy(OPAClient.java:536)
-        at com.styra.opa.OPAClient.evaluateMachinery(OPAClient.java:683)
-        at com.styra.opa.OPAClient.evaluate(OPAClient.java:354)
-        at com.styra.opa.springboot.OPAAuthorizationManager.opaRequest(OPAAuthorizationManager.java:254)
-        at com.styra.opa.springboot.OPAAuthorizationManager.check(OPAAuthorizationManager.java:275)
+        at org.openpolicyagent.opa.openapi.utils.SpeakeasyHTTPClient.send(SpeakeasyHTTPClient.java:20)
+        at org.openpolicyagent.opa.openapi.OpaApiClient.executePolicyWithInput(OpaApiClient.java:508)
+        at org.openpolicyagent.opa.openapi.models.operations.ExecutePolicyWithInputRequestBuilder.call(ExecutePolicyWithInputRequestBuilder.java:37)
+        at org.openpolicyagent.opa.OPAClient.executePolicy(OPAClient.java:536)
+        at org.openpolicyagent.opa.OPAClient.evaluateMachinery(OPAClient.java:683)
+        at org.openpolicyagent.opa.OPAClient.evaluate(OPAClient.java:354)
+        at org.openpolicyagent.opa.springboot.OPAAuthorizationManager.opaRequest(OPAAuthorizationManager.java:254)
+        at org.openpolicyagent.opa.springboot.OPAAuthorizationManager.check(OPAAuthorizationManager.java:275)
 ...
 ```
 
 ```javastacktrace
-com.styra.opa.OPAException: executing policy at 'Optional[demo/main]' with failed due to exception 'java.net.ConnectException'
-        at com.styra.opa.OPAClient.executePolicy(OPAClient.java:547) ~[opa-1.4.1.jar:na]
-        at com.styra.opa.OPAClient.evaluateMachinery(OPAClient.java:683) ~[opa-1.4.1.jar:na]
-        at com.styra.opa.OPAClient.evaluate(OPAClient.java:354) ~[opa-1.4.1.jar:na]
-        at com.styra.opa.springboot.OPAAuthorizationManager.opaRequest(OPAAuthorizationManager.java:254) ~[springboot-0.0.4-plain.jar:na]
-        at com.styra.opa.springboot.OPAAuthorizationManager.check(OPAAuthorizationManager.java:275) ~[springboot-0.0.4-plain.jar:na]
-        at com.styra.opa.springboot.OPAAuthorizationManager.check(OPAAuthorizationManager.java:33) ~[springboot-0.0.4-plain.jar:na]
+org.openpolicyagent.opa.OPAException: executing policy at 'Optional[demo/main]' with failed due to exception 'java.net.ConnectException'
+        at org.openpolicyagent.opa.OPAClient.executePolicy(OPAClient.java:547) ~[opa-1.4.1.jar:na]
+        at org.openpolicyagent.opa.OPAClient.evaluateMachinery(OPAClient.java:683) ~[opa-1.4.1.jar:na]
+        at org.openpolicyagent.opa.OPAClient.evaluate(OPAClient.java:354) ~[opa-1.4.1.jar:na]
+        at org.openpolicyagent.opa.springboot.OPAAuthorizationManager.opaRequest(OPAAuthorizationManager.java:254) ~[springboot-0.0.4-plain.jar:na]
+        at org.openpolicyagent.opa.springboot.OPAAuthorizationManager.check(OPAAuthorizationManager.java:275) ~[springboot-0.0.4-plain.jar:na]
+        at org.openpolicyagent.opa.springboot.OPAAuthorizationManager.check(OPAAuthorizationManager.java:33) ~[springboot-0.0.4-plain.jar:na]
         at org.springframework.security.web.access.intercept.RequestMatcherDelegatingAuthorizationManager.check(RequestMatcherDelegatingAuthorizationManager.java:87) ~[spring-security-web-6.3.1.jar:6.3.1]
 ...
 ```
@@ -53,29 +53,29 @@ If you encounter these types of errors, this typically indicates that the SDK wa
 If your OPA policy does not correctly follow the output schema described [here](../reference/input-output-schema), the SDK will not be able to interpret the policy decisions. This may result in errors similar to the ones below:
 
 ```javastacktrace
-java.lang.IllegalArgumentException: Cannot construct instance of `com.styra.opa.springboot.OPAResponse` (although at least one Creator exists): no boolean/Boolean-argument constructor/factory method to deserialize from boolean value (false)
+java.lang.IllegalArgumentException: Cannot construct instance of `org.openpolicyagent.opa.springboot.OPAResponse` (although at least one Creator exists): no boolean/Boolean-argument constructor/factory method to deserialize from boolean value (false)
  at [Source: UNKNOWN; byte offset: #UNKNOWN]
         at com.fasterxml.jackson.databind.ObjectMapper._convert(ObjectMapper.java:4624) ~[jackson-databind-2.17.0.jar:2.17.0]
         at com.fasterxml.jackson.databind.ObjectMapper.convertValue(ObjectMapper.java:4565) ~[jackson-databind-2.17.0.jar:2.17.0]
-        at com.styra.opa.OPAClient.evaluateMachinery(OPAClient.java:686) ~[opa-1.4.1.jar:na]
-        at com.styra.opa.OPAClient.evaluate(OPAClient.java:354) ~[opa-1.4.1.jar:na]
-        at com.styra.opa.springboot.OPAAuthorizationManager.opaRequest(OPAAuthorizationManager.java:254) ~[springboot-0.0.4-plain.jar:na]
-        at com.styra.opa.springboot.OPAAuthorizationManager.check(OPAAuthorizationManager.java:275) ~[springboot-0.0.4-plain.jar:na]
-        at com.styra.opa.springboot.OPAAuthorizationManager.check(OPAAuthorizationManager.java:33) ~[springboot-0.0.4-plain.jar:na]
+        at org.openpolicyagent.opa.OPAClient.evaluateMachinery(OPAClient.java:686) ~[opa-1.4.1.jar:na]
+        at org.openpolicyagent.opa.OPAClient.evaluate(OPAClient.java:354) ~[opa-1.4.1.jar:na]
+        at org.openpolicyagent.opa.springboot.OPAAuthorizationManager.opaRequest(OPAAuthorizationManager.java:254) ~[springboot-0.0.4-plain.jar:na]
+        at org.openpolicyagent.opa.springboot.OPAAuthorizationManager.check(OPAAuthorizationManager.java:275) ~[springboot-0.0.4-plain.jar:na]
+        at org.openpolicyagent.opa.springboot.OPAAuthorizationManager.check(OPAAuthorizationManager.java:33) ~[springboot-0.0.4-plain.jar:na]
         at org.springframework.security.web.access.intercept.RequestMatcherDelegatingAuthorizationManager.check(RequestMatcherDelegatingAuthorizationManager.java:87) ~[spring-security-web-6.3.1.jar:6.3.1]
 ...
 ```
 
-In the above sample, the SDK was configured to access a rule which evaluated to a boolean value. Don't be fooled by `no boolean/Boolean-argument constructor/factory`, this isn't a Jackson serialization issue, but instead a failure to deserialize a boolean into an [`OPAResponse`](https://styrainc.github.io/opa-springboot/javadoc/com/styra/opa/springboot/OPAResponse.html).
+In the above sample, the SDK was configured to access a rule which evaluated to a boolean value. Don't be fooled by `no boolean/Boolean-argument constructor/factory`, this isn't a Jackson serialization issue, but instead a failure to deserialize a boolean into an [`OPAResponse`](https://open-policy-agent.github.io/opa-springboot/javadoc/org/openpolicyagent/opa/springboot/OPAResponse.html).
 
 ```javastacktrace
-java.lang.IllegalArgumentException: Unrecognized field "acmecorp" (class com.styra.opa.springboot.OPAResponse), not marked as ignorable (2 known properties: "decision", "context"])
- at [Source: UNKNOWN; byte offset: #UNKNOWN] (through reference chain: com.styra.opa.springboot.OPAResponse["acmecorp"])
+java.lang.IllegalArgumentException: Unrecognized field "acmecorp" (class org.openpolicyagent.opa.springboot.OPAResponse), not marked as ignorable (2 known properties: "decision", "context"])
+ at [Source: UNKNOWN; byte offset: #UNKNOWN] (through reference chain: org.openpolicyagent.opa.springboot.OPAResponse["acmecorp"])
         at com.fasterxml.jackson.databind.ObjectMapper._convert(ObjectMapper.java:4624) ~[jackson-databind-2.17.0.jar:2.17.0]
         at com.fasterxml.jackson.databind.ObjectMapper.convertValue(ObjectMapper.java:4565) ~[jackson-databind-2.17.0.jar:2.17.0]
-        at com.styra.opa.OPAClient.evaluateMachinery(OPAClient.java:686) ~[opa-1.4.1.jar:na]
-        at com.styra.opa.OPAClient.evaluate(OPAClient.java:354) ~[opa-1.4.1.jar:na]
-        at com.styra.opa.springboot.OPAAuthorizationManager.opaRequest(OPAAuthorizationManager.java:254) ~[springboot-0.0.4-plain.jar:na]
+        at org.openpolicyagent.opa.OPAClient.evaluateMachinery(OPAClient.java:686) ~[opa-1.4.1.jar:na]
+        at org.openpolicyagent.opa.OPAClient.evaluate(OPAClient.java:354) ~[opa-1.4.1.jar:na]
+        at org.openpolicyagent.opa.springboot.OPAAuthorizationManager.opaRequest(OPAAuthorizationManager.java:254) ~[springboot-0.0.4-plain.jar:na]
 ...
 ```
 

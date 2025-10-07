@@ -1,6 +1,6 @@
 # OPA Spring Boot SDK Policy Input/Output Schema
 
-The OPA Spring Boot SDK makes calls to Enterprise OPA or Open Policy Agent to request an authorization decision.
+The OPA Spring Boot SDK makes calls to EOPA or Open Policy Agent to request an authorization decision.
 
 The policy that processes these authorization decision requests must know the structure of the input given by OPA Spring Boot, and must return an appropriately structured output.
 
