@@ -1,9 +1,9 @@
 package io.github.open_policy_agent.opa.springboot;
 
-import java.util.Map;
-
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
+
+import java.util.Map;
 
 /**
  * Selects target OPA path based on {@link Authentication},

@@ -1,6 +1,5 @@
 package io.github.open_policy_agent.opa.springboot;
 
-import static java.util.Map.entry;
 import static io.github.open_policy_agent.opa.springboot.input.InputConstants.ACTION;
 import static io.github.open_policy_agent.opa.springboot.input.InputConstants.ACTION_HEADERS;
 import static io.github.open_policy_agent.opa.springboot.input.InputConstants.ACTION_NAME;
@@ -19,14 +18,9 @@ import static io.github.open_policy_agent.opa.springboot.input.InputConstants.SU
 import static io.github.open_policy_agent.opa.springboot.input.InputConstants.SUBJECT_DETAILS;
 import static io.github.open_policy_agent.opa.springboot.input.InputConstants.SUBJECT_ID;
 import static io.github.open_policy_agent.opa.springboot.input.InputConstants.SUBJECT_TYPE;
+import static java.util.Map.entry;
 
-import java.util.Collection;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.function.Supplier;
-
+import com.fasterxml.jackson.core.type.TypeReference;
 import io.github.open_policy_agent.opa.OPAClient;
 import io.github.open_policy_agent.opa.OPAException;
 import io.github.open_policy_agent.opa.springboot.authorization.OPAAccessDeniedException;
@@ -37,6 +31,8 @@ import io.github.open_policy_agent.opa.springboot.input.OPAInputContextCustomize
 import io.github.open_policy_agent.opa.springboot.input.OPAInputResourceCustomizer;
 import io.github.open_policy_agent.opa.springboot.input.OPAInputSubjectCustomizer;
 import io.github.open_policy_agent.opa.springboot.input.OPAInputValidator;
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,10 +43,12 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-
-import jakarta.servlet.http.HttpServletRequest;
-import lombok.Getter;
+import java.util.Collection;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.Supplier;
 
 /**
  * This class implements {@link AuthorizationManager} which wraps the

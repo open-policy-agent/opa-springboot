@@ -15,7 +15,7 @@ public interface OPAInputActionCustomizer {
 
     /**
      * Customizes {@code action} {@link Map}.
-     * 
+     *
      * @param action contains:
      *               <ul>
      *               <li>{@value InputConstants#ACTION_NAME}:

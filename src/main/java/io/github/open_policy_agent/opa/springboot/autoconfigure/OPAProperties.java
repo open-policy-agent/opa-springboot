@@ -1,10 +1,9 @@
 package io.github.open_policy_agent.opa.springboot.autoconfigure;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * Configuration properties for OPA authorization support.

@@ -1,10 +1,9 @@
 package io.github.open_policy_agent.opa.springboot.authorization;
 
+import io.github.open_policy_agent.opa.springboot.OPAResponse;
+import lombok.Getter;
 import org.springframework.security.access.AccessDeniedException;
 
-import io.github.open_policy_agent.opa.springboot.OPAResponse;
-
-import lombok.Getter;
 
 /**
  * Extends {@link AccessDeniedException} which conveys {@link OPAResponse}.

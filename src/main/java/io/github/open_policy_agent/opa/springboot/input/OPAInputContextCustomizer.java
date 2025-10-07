@@ -1,15 +1,14 @@
 package io.github.open_policy_agent.opa.springboot.input;
 
-import java.util.Map;
-import java.util.function.Supplier;
-
 import io.github.open_policy_agent.opa.springboot.ContextDataProvider;
 import io.github.open_policy_agent.opa.springboot.OPAAuthorizationManager;
 import io.github.open_policy_agent.opa.springboot.autoconfigure.OPAProperties;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
 
-import jakarta.servlet.http.HttpServletRequest;
+import java.util.Map;
+import java.util.function.Supplier;
 
 /**
  * By defining a bean which implements this interface, clients could customize
@@ -21,7 +20,7 @@ public interface OPAInputContextCustomizer {
     /**
      * Customizes {@code context} {@link Map}. This method could return
      * {@code null}.
-     * 
+     *
      * @param context contains:
      *                <ul>
      *                <li>{@value InputConstants#CONTEXT_TYPE}:

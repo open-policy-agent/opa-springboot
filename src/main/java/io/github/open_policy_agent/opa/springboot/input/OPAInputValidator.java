@@ -1,6 +1,5 @@
 package io.github.open_policy_agent.opa.springboot.input;
 
-import static java.lang.String.format;
 import static io.github.open_policy_agent.opa.springboot.input.InputConstants.ACTION;
 import static io.github.open_policy_agent.opa.springboot.input.InputConstants.ACTION_NAME;
 import static io.github.open_policy_agent.opa.springboot.input.InputConstants.CONTEXT;
@@ -11,12 +10,13 @@ import static io.github.open_policy_agent.opa.springboot.input.InputConstants.RE
 import static io.github.open_policy_agent.opa.springboot.input.InputConstants.SUBJECT;
 import static io.github.open_policy_agent.opa.springboot.input.InputConstants.SUBJECT_ID;
 import static io.github.open_policy_agent.opa.springboot.input.InputConstants.SUBJECT_TYPE;
+import static java.lang.String.format;
 
 import org.springframework.security.access.AccessDeniedException;
-import java.util.Map;
-
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
+
+import java.util.Map;
 
 /**
  * Makes sure that mandatory OPA {@code input} properties are available.
@@ -27,7 +27,7 @@ public final class OPAInputValidator {
 
     /**
      * Validates {@code input} {@link Map}.
-     * 
+     *
      * @param input which will be passed to the OPA server as request body.
      * @throws AccessDeniedException if {code input} does not contain any of these
      *                               keys:

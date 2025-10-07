@@ -1,9 +1,8 @@
 package io.github.open_policy_agent.opa.springboot.authorization;
 
 import io.github.open_policy_agent.opa.springboot.OPAResponse;
-import org.springframework.security.authorization.AuthorizationDecision;
-
 import lombok.Getter;
+import org.springframework.security.authorization.AuthorizationDecision;
 
 /**
  * Extends {@link AuthorizationDecision} which conveys {@link OPAResponse}.

@@ -1,7 +1,5 @@
 package io.github.open_policy_agent.opa.springboot.authorization;
 
-import java.util.function.Supplier;
-
 import io.github.open_policy_agent.opa.springboot.autoconfigure.OPAProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +9,8 @@ import org.springframework.security.authorization.AuthorizationEventPublisher;
 import org.springframework.security.authorization.SpringAuthorizationEventPublisher;
 import org.springframework.security.authorization.event.AuthorizationGrantedEvent;
 import org.springframework.security.core.Authentication;
+
+import java.util.function.Supplier;
 
 /**
  * Publishes OPA authorization granted/denied events. By default, only denied
@@ -24,7 +24,7 @@ import org.springframework.security.core.Authentication;
  * <code>opa.authorization-event.granted.enabled</code>
  * </li>
  * </ul>
- * 
+ *
  * @see <a href=
  *      "https://docs.spring.io/spring-security/reference/servlet/authorization/events.html">
  *      Authorization Events</a>

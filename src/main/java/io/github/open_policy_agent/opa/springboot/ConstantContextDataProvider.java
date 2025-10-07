@@ -1,9 +1,9 @@
 package io.github.open_policy_agent.opa.springboot;
 
-import java.util.function.Supplier;
-
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
+
+import java.util.function.Supplier;
 
 /**
  * This helper class implements {@link ContextDataProvider} and always returns
