@@ -10,7 +10,7 @@ usage() {
 
 TAG_NAME=${TAG_NAME}
 ASSET_DIR=${PWD:-"./"}
-REPO="open-policy-agent/opa-java"
+REPO="open-policy-agent/opa-springboot"
 
 for i in "$@"; do
     case $i in
