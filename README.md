@@ -1,5 +1,8 @@
 # OPA Spring Boot SDK
 
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Maven Central Version](https://img.shields.io/maven-central/v/io.github.open-policy-agent.opa/springboot?label=Maven%20Central&logo=apache-maven&color=%2324b6e0)](https://central.sonatype.com/artifact/io.github.open-policy-agent.opa/springboot)
+
 > [!IMPORTANT]
 > The documentation for this SDK lives at [`sdk/`](/docs), with reference documentation available at [https://open-policy-agent.github.io/opa-springboot/javadoc](https://open-policy-agent.github.io/opa-springboot/javadoc)
 
