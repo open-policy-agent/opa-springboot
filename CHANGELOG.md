@@ -2,10 +2,10 @@
 
 ## Unreleased
 
-## 1.0.1
+## 1.0.1, 1.0.2
 
-This release includes release engineering improvements, with no significant code or dependency changes.
-This is also the first release since this project was donated to the `open-policy-agent` organization on Github.
+These releases include release engineering improvements, with no significant code or dependency changes.
+These are also the first releases since this project was donated to the `open-policy-agent` organization on Github.
 
 
 ## 1.0.0
