@@ -6,9 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import io.github.open_policy_agent.opa.springboot.autoconfigure.OPAProperties;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import io.github.open_policy_agent.opa.springboot.autoconfigure.OPAProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -29,9 +29,9 @@ public class DefaultOPAPropertiesTest {
         assertNotNull(opaProperties.getRequest().getContext());
         assertEquals(OPAProperties.Request.Context.DEFAULT_TYPE, opaProperties.getRequest().getContext().getType());
         assertEquals(OPAProperties.Request.Subject.DEFAULT_TYPE,
-                opaProperties.getRequest().getSubject().getType());
+            opaProperties.getRequest().getSubject().getType());
         assertEquals(OPAProperties.Response.Context.DEFAULT_REASON_KEY,
-                opaProperties.getResponse().getContext().getReasonKey());
+            opaProperties.getResponse().getContext().getReasonKey());
         assertTrue(opaProperties.getAuthorizationEvent().getDenied().isEnabled());
         assertFalse(opaProperties.getAuthorizationEvent().getGranted().isEnabled());
     }

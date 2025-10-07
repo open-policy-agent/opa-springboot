@@ -4,8 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
-import java.util.Map;
-
 import io.github.open_policy_agent.opa.OPAClient;
 import io.github.open_policy_agent.opa.springboot.BaseIntegrationTest;
 import io.github.open_policy_agent.opa.springboot.OPAAuthorizationManager;
@@ -17,6 +15,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+
+import java.util.Map;
 
 @Import(BaseOpaInputCustomizerIntegrationTest.CustomOPAInputCustomizerConfig.class)
 public class BaseOpaInputCustomizerIntegrationTest extends BaseIntegrationTest {

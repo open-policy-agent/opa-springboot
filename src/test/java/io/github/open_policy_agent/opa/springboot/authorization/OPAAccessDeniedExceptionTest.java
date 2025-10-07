@@ -7,19 +7,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import org.springframework.security.access.AccessDeniedException;;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.junit.jupiter.api.Test;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.open_policy_agent.opa.OPAClient;
 import io.github.open_policy_agent.opa.springboot.BaseIntegrationTest;
 import io.github.open_policy_agent.opa.springboot.OPAAuthorizationManager;
-import io.github.open_policy_agent.opa.springboot.authorization.OPAAccessDeniedException;
 import io.github.open_policy_agent.opa.springboot.autoconfigure.OPAAutoConfiguration;
 import io.github.open_policy_agent.opa.springboot.autoconfigure.OPAProperties;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -29,6 +26,7 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -41,16 +39,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 @TestPropertySource(properties = { "opa.path=policy/decision_always_false" })
 @AutoConfigureMockMvc
 @SpringBootTest(classes = { OPAAccessDeniedExceptionTest.CustomOPAConfig.class,
-        OPAAccessDeniedExceptionTest.CustomAuthorizationEventConfig.class, OPAAutoConfiguration.class })
+    OPAAccessDeniedExceptionTest.CustomAuthorizationEventConfig.class, OPAAutoConfiguration.class })
 public class OPAAccessDeniedExceptionTest extends BaseIntegrationTest {
 
     @Autowired
@@ -60,12 +57,12 @@ public class OPAAccessDeniedExceptionTest extends BaseIntegrationTest {
     @Test
     public void testDefaultAuthorizationDeniedEvent() throws Exception {
         mockMvc.perform(get("/test/hello"))
-                .andExpect(status().isForbidden())
-                .andDo(print())
-                .andExpect(result -> jsonPath("$.title").value("Access Denied"))
-                .andExpect(result -> jsonPath("$.status").value(HttpStatus.FORBIDDEN.value()))
-                .andExpect(result -> jsonPath("$.detail").value("Access denied for subject: denied_user"))
-                .andExpect(result -> jsonPath("$.subject.subject_id").value("denied_user"));
+            .andExpect(status().isForbidden())
+            .andDo(print())
+            .andExpect(result -> jsonPath("$.title").value("Access Denied"))
+            .andExpect(result -> jsonPath("$.status").value(HttpStatus.FORBIDDEN.value()))
+            .andExpect(result -> jsonPath("$.detail").value("Access denied for subject: denied_user"))
+            .andExpect(result -> jsonPath("$.subject.subject_id").value("denied_user"));
     }
 
     @Order(Ordered.HIGHEST_PRECEDENCE + 10)
@@ -79,7 +76,7 @@ public class OPAAccessDeniedExceptionTest extends BaseIntegrationTest {
         @Bean
         SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
             return http.authorizeHttpRequests(authorize -> authorize.anyRequest().access(opaAuthorizationManager))
-                    .build();
+                .build();
         }
 
         @RestController
@@ -94,7 +91,7 @@ public class OPAAccessDeniedExceptionTest extends BaseIntegrationTest {
 
         /**
          * Generates JSON error response based on RFC 9457.
-         * 
+         *
          * @see <a href="https://datatracker.ietf.org/doc/html/rfc9457">RFC 9457 -
          *      Problem Details for HTTP APIs</a>
          */
@@ -115,7 +112,7 @@ public class OPAAccessDeniedExceptionTest extends BaseIntegrationTest {
                 body.put("status", HttpStatus.FORBIDDEN.value());
                 body.put("title", opaAccessDeniedException.getMessage());
                 var subject = (Map<String, Object>) opaAccessDeniedException.getOpaResponse().getContext().getData()
-                        .get(SUBJECT);
+                    .get(SUBJECT);
                 var subjectId = subject.get(SUBJECT_ID);
                 body.put("detail", "Access denied for subject: " + subjectId);
                 body.put("subject", subject);

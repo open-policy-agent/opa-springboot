@@ -4,23 +4,23 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import io.github.open_policy_agent.opa.springboot.autoconfigure.OPAProperties;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import io.github.open_policy_agent.opa.springboot.autoconfigure.OPAProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @TestPropertySource(properties = {
-        "opa.url=http://localhost:8182",
-        "opa.path=foo/bar",
-        "opa.request.resource.type=stomp_endpoint",
-        "opa.request.context.type=websocket",
-        "opa.request.subject.type=oauth2_resource_owner",
-        "opa.response.context.reason-key=de",
-        "opa.authorization-event.denied.enabled=false",
-        "opa.authorization-event.granted.enabled=true",
+    "opa.url=http://localhost:8182",
+    "opa.path=foo/bar",
+    "opa.request.resource.type=stomp_endpoint",
+    "opa.request.context.type=websocket",
+    "opa.request.subject.type=oauth2_resource_owner",
+    "opa.response.context.reason-key=de",
+    "opa.authorization-event.denied.enabled=false",
+    "opa.authorization-event.granted.enabled=true",
 })
 @EnableConfigurationProperties(OPAProperties.class)
 @ExtendWith(SpringExtension.class)

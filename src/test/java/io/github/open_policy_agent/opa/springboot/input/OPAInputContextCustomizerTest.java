@@ -1,13 +1,10 @@
 package io.github.open_policy_agent.opa.springboot.input;
 
+import static io.github.open_policy_agent.opa.springboot.input.InputConstants.CONTEXT;
+import static io.github.open_policy_agent.opa.springboot.input.InputConstants.CONTEXT_TYPE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static io.github.open_policy_agent.opa.springboot.input.InputConstants.CONTEXT;
-import static io.github.open_policy_agent.opa.springboot.input.InputConstants.CONTEXT_TYPE;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -16,6 +13,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class OPAInputContextCustomizerTest {
 

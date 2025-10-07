@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @AutoConfigureMockMvc
 @SpringBootTest(classes = { BaseAuthorizationEventListenerTest.CustomOPAConfig.class,
-        BaseAuthorizationEventListenerTest.CustomAuthorizationEventConfig.class, OPAAutoConfiguration.class })
+    BaseAuthorizationEventListenerTest.CustomAuthorizationEventConfig.class, OPAAutoConfiguration.class })
 public class BaseAuthorizationEventListenerTest extends BaseIntegrationTest {
 
     @Autowired
@@ -90,7 +90,7 @@ public class BaseAuthorizationEventListenerTest extends BaseIntegrationTest {
         @Bean
         SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
             return http.authorizeHttpRequests(authorize -> authorize.anyRequest().access(opaAuthorizationManager))
-                    .build();
+                .build();
         }
     }
 

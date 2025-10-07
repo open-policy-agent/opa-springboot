@@ -1,10 +1,10 @@
 package io.github.open_policy_agent.opa.springboot.authorization;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static io.github.open_policy_agent.opa.springboot.input.InputConstants.ACTION;
 import static io.github.open_policy_agent.opa.springboot.input.InputConstants.CONTEXT;
 import static io.github.open_policy_agent.opa.springboot.input.InputConstants.RESOURCE;
 import static io.github.open_policy_agent.opa.springboot.input.InputConstants.SUBJECT;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -13,8 +13,8 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.TestPropertySource;
 
 @TestPropertySource(properties = {
-        "opa.authorization-event.denied.enabled=false",
-        "opa.authorization-event.granted.enabled=true"
+    "opa.authorization-event.denied.enabled=false",
+    "opa.authorization-event.granted.enabled=true"
 })
 public class ModifiedCustomAuthorizationEventListenerTest extends BaseAuthorizationEventListenerTest {
 

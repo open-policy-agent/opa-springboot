@@ -1,12 +1,9 @@
 package io.github.open_policy_agent.opa.springboot.input;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static io.github.open_policy_agent.opa.springboot.input.InputConstants.SUBJECT;
 import static io.github.open_policy_agent.opa.springboot.input.InputConstants.SUBJECT_TYPE;
-
-import java.util.HashMap;
-import java.util.Map;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.TestConfiguration;
@@ -14,6 +11,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Import(OPAInputSubjectCustomizerTest.OPAInputSubjectCustomizerConfig.class)
 public class OPAInputSubjectCustomizerTest extends BaseOpaInputCustomizerIntegrationTest {

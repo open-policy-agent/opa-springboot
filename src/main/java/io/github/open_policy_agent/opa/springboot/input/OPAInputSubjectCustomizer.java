@@ -1,10 +1,10 @@
 package io.github.open_policy_agent.opa.springboot.input;
 
-import java.util.Map;
-
 import io.github.open_policy_agent.opa.springboot.autoconfigure.OPAProperties;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
+
+import java.util.Map;
 
 /**
  * By defining a bean which implements this interface, clients could customize
@@ -15,7 +15,7 @@ public interface OPAInputSubjectCustomizer {
 
     /**
      * Customizes {@code subject} {@link Map}.
-     * 
+     *
      * @param subject contains:
      *                <ul>
      *                <li>{@value InputConstants#SUBJECT_TYPE}:

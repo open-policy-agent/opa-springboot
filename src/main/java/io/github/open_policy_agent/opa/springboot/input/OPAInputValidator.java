@@ -12,7 +12,7 @@ import static io.github.open_policy_agent.opa.springboot.input.InputConstants.SU
 import static io.github.open_policy_agent.opa.springboot.input.InputConstants.SUBJECT_ID;
 import static io.github.open_policy_agent.opa.springboot.input.InputConstants.SUBJECT_TYPE;
 
-import org.springframework.security.access.AccessDeniedException;;
+import org.springframework.security.access.AccessDeniedException;
 import java.util.Map;
 
 import org.springframework.security.core.Authentication;

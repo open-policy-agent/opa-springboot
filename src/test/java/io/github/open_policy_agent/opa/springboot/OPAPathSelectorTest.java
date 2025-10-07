@@ -4,18 +4,17 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
-import org.springframework.security.access.AccessDeniedException;;
-
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
 import io.github.open_policy_agent.opa.OPAClient;
 import io.github.open_policy_agent.opa.springboot.autoconfigure.OPAProperties;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.access.AccessDeniedException;
 
 @Nested
 @Import(OPAPathSelectorTest.CustomOPAConfig.class)
@@ -38,7 +37,7 @@ public class OPAPathSelectorTest extends BaseIntegrationTest {
         when(mockAuth.getPrincipal()).thenReturn("testuser_denied");
         when(authenticationSupplier.get()).thenReturn(mockAuth);
         assertThrows(AccessDeniedException.class,
-                () -> opaAuthorizationManager.verify(authenticationSupplier, context));
+            () -> opaAuthorizationManager.verify(authenticationSupplier, context));
     }
 
     @Order(Ordered.HIGHEST_PRECEDENCE)

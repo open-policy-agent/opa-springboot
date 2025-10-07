@@ -1,10 +1,5 @@
 package io.github.open_policy_agent.opa.springboot;
 
-import static java.util.Map.entry;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 import static io.github.open_policy_agent.opa.springboot.input.InputConstants.ACTION;
 import static io.github.open_policy_agent.opa.springboot.input.InputConstants.ACTION_HEADERS;
 import static io.github.open_policy_agent.opa.springboot.input.InputConstants.ACTION_NAME;
@@ -21,25 +16,21 @@ import static io.github.open_policy_agent.opa.springboot.input.InputConstants.RE
 import static io.github.open_policy_agent.opa.springboot.input.InputConstants.SUBJECT;
 import static io.github.open_policy_agent.opa.springboot.input.InputConstants.SUBJECT_ID;
 import static io.github.open_policy_agent.opa.springboot.input.InputConstants.SUBJECT_TYPE;
+import static java.util.Map.entry;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.function.Supplier;
-
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.open_policy_agent.opa.springboot.autoconfigure.OPAAutoConfiguration;
+import io.github.open_policy_agent.opa.springboot.autoconfigure.OPAProperties;
+import jakarta.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import io.github.open_policy_agent.opa.springboot.autoconfigure.OPAAutoConfiguration;
-import io.github.open_policy_agent.opa.springboot.autoconfigure.OPAProperties;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.Authentication;
@@ -56,10 +47,17 @@ import org.testcontainers.images.builder.ImageFromDockerfile;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import jakarta.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.function.Supplier;
 
 @SpringBootTest(classes = OPAAutoConfiguration.class)
 @Testcontainers

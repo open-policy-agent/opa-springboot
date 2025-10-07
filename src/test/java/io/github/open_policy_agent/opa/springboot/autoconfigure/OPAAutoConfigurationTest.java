@@ -3,19 +3,19 @@ package io.github.open_policy_agent.opa.springboot.autoconfigure;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import java.util.Map;
-
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
 import io.github.open_policy_agent.opa.OPAClient;
 import io.github.open_policy_agent.opa.springboot.OPAAuthorizationManager;
 import io.github.open_policy_agent.opa.springboot.OPAPathSelector;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.TestPropertySource;
+
+import java.util.Map;
 
 @SpringBootTest(classes = OPAAutoConfiguration.class)
 public class OPAAutoConfigurationTest {

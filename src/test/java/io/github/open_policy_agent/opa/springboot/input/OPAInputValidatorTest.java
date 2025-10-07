@@ -1,8 +1,5 @@
 package io.github.open_policy_agent.opa.springboot.input;
 
-import static java.lang.String.format;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static io.github.open_policy_agent.opa.springboot.input.InputConstants.ACTION;
 import static io.github.open_policy_agent.opa.springboot.input.InputConstants.ACTION_NAME;
 import static io.github.open_policy_agent.opa.springboot.input.InputConstants.CONTEXT;
@@ -14,9 +11,9 @@ import static io.github.open_policy_agent.opa.springboot.input.InputConstants.SU
 import static io.github.open_policy_agent.opa.springboot.input.InputConstants.SUBJECT_ID;
 import static io.github.open_policy_agent.opa.springboot.input.InputConstants.SUBJECT_TYPE;
 import static io.github.open_policy_agent.opa.springboot.input.OPAInputValidator.EXCEPTION_MESSAGE_TEMPLATE;
-
-import org.springframework.security.access.AccessDeniedException;;
-import java.util.HashMap;
+import static java.lang.String.format;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -25,6 +22,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.access.AccessDeniedException;
+
+import java.util.HashMap;
 
 public class OPAInputValidatorTest {
 

@@ -1,5 +1,8 @@
 package io.github.open_policy_agent.opa.springboot;
 
+import static io.github.open_policy_agent.opa.springboot.input.InputConstants.SUBJECT;
+import static io.github.open_policy_agent.opa.springboot.input.InputConstants.SUBJECT_AUTHORITIES;
+import static io.github.open_policy_agent.opa.springboot.input.InputConstants.SUBJECT_DETAILS;
 import static java.util.Map.entry;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -8,23 +11,20 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
-import static io.github.open_policy_agent.opa.springboot.input.InputConstants.SUBJECT;
-import static io.github.open_policy_agent.opa.springboot.input.InputConstants.SUBJECT_AUTHORITIES;
-import static io.github.open_policy_agent.opa.springboot.input.InputConstants.SUBJECT_DETAILS;
+
+import io.github.open_policy_agent.opa.OPAClient;
+import org.junit.jupiter.api.Test;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
 
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import org.springframework.security.access.AccessDeniedException;;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
-
-import org.junit.jupiter.api.Test;
-import io.github.open_policy_agent.opa.OPAClient;
-import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
 
 class OPAAuthorizationManagerTest extends BaseIntegrationTest {
 
@@ -141,11 +141,11 @@ class OPAAuthorizationManagerTest extends BaseIntegrationTest {
         Map<String, Object> subject = new HashMap<>((Map<String, Object>) expectedResponseContextData.get(SUBJECT));
         subject.putAll(Map.ofEntries(
                 entry(SUBJECT_AUTHORITIES, List.of(
-                        Map.ofEntries(entry("authority", "ROLE_USER")),
-                        Map.ofEntries(entry("authority", "ROLE_ADMIN")))),
+                    Map.ofEntries(entry("authority", "ROLE_USER")),
+                    Map.ofEntries(entry("authority", "ROLE_ADMIN")))),
                 entry(SUBJECT_DETAILS, Map.ofEntries(
-                        entry("remoteAddress", "192.0.2.123"),
-                        entry("sessionId", "null")))));
+                    entry("remoteAddress", "192.0.2.123"),
+                    entry("sessionId", "null")))));
         expectedResponseContextData.put(SUBJECT, subject);
 
         var expectedResponseContext = new OPAResponseContext();
