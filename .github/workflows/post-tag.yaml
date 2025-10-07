@@ -10,14 +10,14 @@ permissions:
   checks: write
 
 jobs:
-  test_and_lint:
+  test-and-lint:
+    name: Test and Lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
       - uses: gradle/actions/setup-gradle@v5
       - uses: open-policy-agent/setup-opa@v2
       - run: ./gradlew test lint checkstyleMain checkstyleTest jar
-      - run: ./scripts/check-version-mismatch.sh
 
   publish-maven-central:
     name: Publish Java SDK to Maven Central

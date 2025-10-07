@@ -95,7 +95,8 @@ jobs:
             echo "No release warning comment found."
           fi
 
-  test_and_lint:
+  test-and-lint:
+    name: Test and Lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
