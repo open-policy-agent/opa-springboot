@@ -9,12 +9,36 @@ plugins {
     id("checkstyle")
 }
 
+compileJava.options.encoding = "UTF-8"
+compileJava.options.compilerArgs += '-Xlint:unchecked'
+compileTestJava.options.encoding = "UTF-8"
+
+repositories {
+    // Use Maven Central for resolving dependencies.
+    mavenCentral()
+}
+
 java {
     sourceCompatibility = '17'
     targetCompatibility = '17'
 
     withSourcesJar()
     withJavadocJar()
+}
+
+model {
+    tasks.generatePomFileForMavenPublication {
+        destination = file("$buildDir/pom.xml")
+    }
+}
+
+jar {
+    dependsOn(":generatePomFileForMavenPublication")
+    archiveBaseName = "${artifactId}"
+
+    into("META-INF/maven/io.github.open-policy-agent/opa") {
+        from("$buildDir/pom.xml")
+    }
 }
 
 configurations {
@@ -29,10 +53,6 @@ tasks.named("bootJar") {
 
 tasks.named("jar") {
     archiveClassifier = ''
-}
-
-repositories {
-    mavenCentral()
 }
 
 javadoc {
@@ -101,6 +121,7 @@ test {
         //events "passed", "skipped", "failed", "standard_out", "standard_error"
     }
 }
+
 tasks.register("testModifiedSystemEnvProperties", Test) {
     useJUnitPlatform()
     group = "verification"
@@ -114,6 +135,7 @@ tasks.register("testModifiedSystemEnvProperties", Test) {
         environment.remove('OPA_PATH')
     }
 }
+
 test.finalizedBy(testModifiedSystemEnvProperties)
 
 gradle.projectsEvaluated {
