@@ -9,6 +9,9 @@ plugins {
     id("checkstyle")
 }
 
+version = "${version}"
+group = "${groupId}"
+
 compileJava.options.encoding = "UTF-8"
 compileJava.options.compilerArgs += '-Xlint:unchecked'
 compileTestJava.options.encoding = "UTF-8"
@@ -144,6 +147,14 @@ gradle.projectsEvaluated {
     }
 }
 
+sourcesJar {
+    archiveBaseName = "${artifactId}"
+}
+
+javadocJar {
+    archiveBaseName = "${artifactId}"
+}
+
 sonatypeCentralUpload {
     // This is your Sonatype generated username
     username = System.getenv("SONATYPE_USERNAME")
@@ -180,7 +191,7 @@ publishing {
                 description = 'A driver to connect Spring Boot applications to Open Policy Agent (OPA) and EOPA deployments'
                 url = 'https://github.com/open-policy-agent/opa-springboot'
                 scm {
-                    url = 'github.com/open-policy-agent/opa-springboot'
+                    url = 'https://github.com/open-policy-agent/opa-springboot'
                     connection = 'scm:git:ssh://git@github.com/open-policy-agent/opa-springboot.git'
                 }
                 licenses {
@@ -198,7 +209,7 @@ publishing {
                 }
                 organization {
                     name = 'Open Policy Agent'
-                    url = 'www.openpolicyagent.org'
+                    url = 'https://www.openpolicyagent.org'
                 }
             }
         }
