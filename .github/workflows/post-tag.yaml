@@ -1,0 +1,65 @@
+name: Publish Release
+"on":
+  workflow_dispatch:
+  push:
+    tags:
+      - "*"
+
+permissions:
+  contents: read
+  checks: write
+
+jobs:
+  test_and_lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: gradle/gradle-build-action@v3
+      - uses: open-policy-agent/setup-opa@v2
+      - run: ./gradlew test lint checkstyleMain checkstyleTest jar
+      - run: ./scripts/check-version-mismatch.sh
+
+  publish-maven-central:
+    name: Publish Java SDK to Maven Central
+    runs-on: ubuntu-latest
+    steps:
+      - name: Tune GitHub-hosted runner network
+        uses: smorimoto/tune-github-hosted-runner-network@v1
+      - uses: actions/checkout@v5
+      - name: Set up Java
+        uses: actions/setup-java@v5
+        with:
+          java-version: "17"
+          distribution: "corretto"
+          cache: "gradle"
+      - name: Publish to Sonatype Central
+        run: |-
+          pwd
+          ./gradlew build sonatypeCentralUpload --no-daemon
+        env:
+          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+          SONATYPE_SIGNING_KEY: ${{ secrets.JAVA_GPG_SECRET_KEY }}
+          SIGNING_KEY_PASSPHRASE: ${{ secrets.JAVA_GPG_PASSPHRASE }}
+
+  github-release:
+    name: Push Github Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Tune GitHub-hosted runner network
+        uses: smorimoto/tune-github-hosted-runner-network@v1
+      - name: Check out code
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+      - uses: gradle/gradle-build-action@v3
+      - uses: open-policy-agent/setup-opa@v2
+      - run: ./gradlew build jar
+      - name: Set TAG_NAME in Environment
+        # Subsequent steps will be have the computed tag name
+        run: echo "TAG_NAME=${GITHUB_REF##*/}" >> $GITHUB_ENV
+      - name: Create or Update Release
+        env:
+          # Required for the GitHub CLI
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: ./scripts/github-release.sh --asset-dir=build/libs --tag=${TAG_NAME}
