@@ -1,0 +1,118 @@
+name: PR Checks
+
+on:
+  workflow_dispatch: {}
+  pull_request: {}
+
+
+permissions:
+  contents: read
+  checks: write
+
+# When a new revision is pushed to a PR, cancel all in-progress CI runs for that
+# PR. See https://docs.github.com/en/actions/using-jobs/using-concurrency
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  release-check:
+    name: Release version bump check
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Tune GitHub-hosted runner network
+        uses: smorimoto/tune-github-hosted-runner-network@v1
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0  # Fetch full history to access all commits
+      - name: Check for release commits
+        id: check-release
+        run: |
+          RESULT=$(./scripts/get-release-from-commits.sh "origin/${{ github.base_ref }}" "origin/${{ github.head_ref }}")
+          echo "Release commits detected: $RESULT"
+          if [ -n $RESULT ]; then
+            echo "result=true" >> $GITHUB_OUTPUT
+          else
+            echo "result=false" >> $GITHUB_OUTPUT
+          fi
+      - name: Post or update warning comment (release commit detected)
+        if: steps.check-release.outputs.result == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          MARKER: "<!-- release-commit-warning -->"
+        run: |
+          # Get latest version from CHANGELOG.md:
+          CHANGELOG_VERSION=$(grep -o -E '## [0-9.]+' CHANGELOG.md | head -n 1 | sed 's/## //')
+
+          # Get version from main csproj:
+          GRADLE_VERSION=$(./gradlew properties | grep "^version:" | cut -d' ' -f2)
+
+          # Release commit version:
+          COMMIT_VERSION=$(./scripts/get-release-from-commits.sh "origin/${{ github.base_ref }}" "origin/${{ github.head_ref }}")
+
+          COMMENT=$(mktemp)
+          echo "ℹ️ **Release Commit Detected**"                                                                      >> "$COMMENT"
+          echo ""                                                                                                    >> "$COMMENT"
+          echo "This PR contains commit(s) that match the case-insensitive regex \`^Release .*\`"                    >> "$COMMENT"
+          echo ""                                                                                                    >> "$COMMENT"
+          echo "Here are the latest versions reported from the places the release workflows will use:"               >> "$COMMENT"
+          echo ""                                                                                                    >> "$COMMENT"
+          echo "| Source | Version |"                                                                                >> "$COMMENT"
+          echo "| --- | --- |"                                                                                       >> "$COMMENT"
+          echo "| Commit matching \`^Release .*\` | $COMMIT_VERSION |"                                               >> "$COMMENT"
+          echo "| \`CHANGELOG.md\` | $CHANGELOG_VERSION |"                                                           >> "$COMMENT"
+          echo "| \`gradle properties\` project version (from \`gradle.properties\`) | $GRADLE_VERSION |"            >> "$COMMENT"
+
+          echo "Posting or updating release warning comment."
+          export COMMENT_BODY="$(cat "$COMMENT")"
+          ./scripts/release-pr-comment.sh "$REPO" "$PR_NUMBER" "$MARKER"
+      - name: Update warning comment if present (no release commit)
+        if: steps.check-release.outputs.result != 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          MARKER: "<!-- release-commit-warning -->"
+          COMMENT_BODY: |
+            ℹ️ A release commit was detected in earlier versions of this PR.
+
+            The current PR commits do not appear to be a release.
+        run: |
+          EXISTING_COMMENT=$(gh api repos/$REPO/issues/$PR_NUMBER/comments \
+              --jq ".[] | select(.body | contains(\"$MARKER\")) | .id" | head -1) || {
+              echo "Error: Failed to fetch existing comments" >&2
+              exit 2
+          }
+
+          if [ -n "$EXISTING_COMMENT" ]; then
+            echo "Updating release warning comment."
+            ./scripts/release-pr-comment.sh "$REPO" "$PR_NUMBER" "$MARKER"
+          else
+            echo "No release warning comment found."
+          fi
+
+  test_and_lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Pre-pull container image
+        run: docker pull ghcr.io/open-policy-agent/eopa:latest
+      - uses: gradle/gradle-build-action@v3
+      - run: ./gradlew test lint checkstyleMain checkstyleTest jar
+      - name: Publish Test Report
+        uses: mikepenz/action-junit-report@v5
+        if: success() || failure() # always run even if the previous step fails
+        with:
+          report_paths: "**/build/test-results/test/TEST-*.xml"
+      - name: Publish Checkstyle report
+        uses: Juuxel/publish-checkstyle-report@v2
+        if: ${{ failure() || success() }}
+        with:
+          # required: The glob paths to report XML files as a multiline string
+          # The format below works for the Gradle Checkstyle plugin with default configurations
+          reports: |
+            build/reports/checkstyle/*.xml
