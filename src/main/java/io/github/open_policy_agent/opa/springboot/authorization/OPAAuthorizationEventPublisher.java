@@ -1,11 +1,12 @@
 package io.github.open_policy_agent.opa.springboot.authorization;
 
 import io.github.open_policy_agent.opa.springboot.autoconfigure.OPAProperties;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.authorization.AuthorizationEventPublisher;
+import org.springframework.security.authorization.AuthorizationResult;
 import org.springframework.security.authorization.SpringAuthorizationEventPublisher;
 import org.springframework.security.authorization.event.AuthorizationGrantedEvent;
 import org.springframework.security.core.Authentication;
@@ -26,8 +27,8 @@ import java.util.function.Supplier;
  * </ul>
  *
  * @see <a href=
- *      "https://docs.spring.io/spring-security/reference/servlet/authorization/events.html">
- *      Authorization Events</a>
+ * "https://docs.spring.io/spring-security/reference/servlet/authorization/events.html">
+ * Authorization Events</a>
  */
 public class OPAAuthorizationEventPublisher implements AuthorizationEventPublisher {
     private static final Logger LOGGER = LoggerFactory.getLogger(OPAAuthorizationEventPublisher.class);
@@ -44,7 +45,7 @@ public class OPAAuthorizationEventPublisher implements AuthorizationEventPublish
 
     @Override
     public <T> void publishAuthorizationEvent(Supplier<Authentication> authentication, T object,
-            AuthorizationDecision decision) {
+                                              @Nullable AuthorizationResult decision) {
         if (!(decision instanceof OPAAuthorizationDecision)) {
             return;
         }

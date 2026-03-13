@@ -3,6 +3,7 @@ package io.github.open_policy_agent.opa.springboot;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.jspecify.annotations.Nullable;
 
 /**
  * This class models the data to be returned from an OPA Spring Boot SDK policy.
@@ -19,6 +20,7 @@ import lombok.NoArgsConstructor;
 public class OPAResponse {
 
     private boolean decision;
+    @Nullable
     private OPAResponseContext context;
 
     public boolean getDecision() {
@@ -30,7 +32,7 @@ public class OPAResponse {
      * is omitted (which the spec
      * permits), then it returns null.
      */
-    public String getReasonForDecision(String searchKey) {
+    public @Nullable String getReasonForDecision(String searchKey) {
         if (context == null) {
             return null;
         }

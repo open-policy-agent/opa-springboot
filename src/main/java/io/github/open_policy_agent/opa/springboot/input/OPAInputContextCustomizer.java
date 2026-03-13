@@ -4,6 +4,7 @@ import io.github.open_policy_agent.opa.springboot.ContextDataProvider;
 import io.github.open_policy_agent.opa.springboot.OPAAuthorizationManager;
 import io.github.open_policy_agent.opa.springboot.autoconfigure.OPAProperties;
 import jakarta.servlet.http.HttpServletRequest;
+import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
 
@@ -44,6 +45,6 @@ public interface OPAInputContextCustomizer {
      *         <li>{@value InputConstants#CONTEXT_TYPE}</li>
      *         </ul>
      */
-    Map<String, Object> customize(Authentication authentication,
+    @Nullable Map<String, Object> customize(@Nullable Authentication authentication,
             RequestAuthorizationContext requestAuthorizationContext, Map<String, Object> context);
 }

@@ -33,6 +33,7 @@ import io.github.open_policy_agent.opa.springboot.input.OPAInputSubjectCustomize
 import io.github.open_policy_agent.opa.springboot.input.OPAInputValidator;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.Getter;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +55,7 @@ import java.util.function.Supplier;
  * This class implements {@link AuthorizationManager} which wraps the
  * <a href="https://github.com/open-policy-agent/opa-java">OPA Java SDK</a>.
  * Authorization will be done in
- * {@link #check(Supplier, RequestAuthorizationContext)} and
+ * {@link #authorize(Supplier, RequestAuthorizationContext)} and
  * {@link #verify(Supplier, RequestAuthorizationContext)} by:
  * <ol>
  * <li>constructing an <a href=
@@ -75,24 +76,32 @@ public class OPAAuthorizationManager implements AuthorizationManager<RequestAuth
 
     private static final Logger LOGGER = LoggerFactory.getLogger(OPAAuthorizationManager.class);
 
+    @Nullable
     private final String opaPath;
     @Getter
     private String reasonKey = OPAProperties.Response.Context.DEFAULT_REASON_KEY;
+    @Nullable
     private final ContextDataProvider contextDataProvider;
     private final OPAClient opaClient;
     @Autowired
     private OPAProperties opaProperties;
-    @Autowired
+    @Nullable
+    @Autowired(required = false)
     private OPAPathSelector opaPathSelector;
+    @Nullable
     @Autowired(required = false)
     private OPAInputSubjectCustomizer opaInputSubjectCustomizer;
+    @Nullable
     @Autowired(required = false)
     private OPAInputResourceCustomizer opaInputResourceCustomizer;
+    @Nullable
     @Autowired(required = false)
     private OPAInputActionCustomizer opaInputActionCustomizer;
+    @Nullable
     @Autowired(required = false)
     private OPAInputContextCustomizer opaInputContextCustomizer;
-    @Autowired
+    @Nullable
+    @Autowired(required = false)
     private OPAInputValidator opaInputValidator;
 
     public OPAAuthorizationManager() {
@@ -101,7 +110,7 @@ public class OPAAuthorizationManager implements AuthorizationManager<RequestAuth
 
     /**
      * @see OPAAuthorizationManager#OPAAuthorizationManager(OPAClient, String,
-     *      ContextDataProvider)
+     * ContextDataProvider)
      */
     public OPAAuthorizationManager(OPAClient opaClient) {
         this(opaClient, null, null);
@@ -109,7 +118,7 @@ public class OPAAuthorizationManager implements AuthorizationManager<RequestAuth
 
     /**
      * @see OPAAuthorizationManager#OPAAuthorizationManager(OPAClient, String,
-     *      ContextDataProvider)
+     * ContextDataProvider)
      */
     public OPAAuthorizationManager(String opaPath) {
         this(null, opaPath, null);
@@ -117,7 +126,7 @@ public class OPAAuthorizationManager implements AuthorizationManager<RequestAuth
 
     /**
      * @see OPAAuthorizationManager#OPAAuthorizationManager(OPAClient, String,
-     *      ContextDataProvider)
+     * ContextDataProvider)
      */
     public OPAAuthorizationManager(OPAClient opaClient, String opaPath) {
         this(opaClient, opaPath, null);
@@ -125,7 +134,7 @@ public class OPAAuthorizationManager implements AuthorizationManager<RequestAuth
 
     /**
      * @see OPAAuthorizationManager#OPAAuthorizationManager(OPAClient, String,
-     *      ContextDataProvider)
+     * ContextDataProvider)
      */
     public OPAAuthorizationManager(OPAClient opaClient, ContextDataProvider contextDataProvider) {
         this(opaClient, null, contextDataProvider);
@@ -133,7 +142,7 @@ public class OPAAuthorizationManager implements AuthorizationManager<RequestAuth
 
     /**
      * @see OPAAuthorizationManager#OPAAuthorizationManager(OPAClient, String,
-     *      ContextDataProvider)
+     * ContextDataProvider)
      */
     public OPAAuthorizationManager(String opaPath, ContextDataProvider contextDataProvider) {
         this(null, opaPath, contextDataProvider);
@@ -152,7 +161,9 @@ public class OPAAuthorizationManager implements AuthorizationManager<RequestAuth
      * @param contextDataProvider helps providing additional context data in
      *                            {@code input.context.data}.
      */
-    public OPAAuthorizationManager(OPAClient opaClient, String opaPath, ContextDataProvider contextDataProvider) {
+    public OPAAuthorizationManager(@Nullable OPAClient opaClient,
+                                   @Nullable String opaPath,
+                                   @Nullable ContextDataProvider contextDataProvider) {
         opaProperties = new OPAProperties();
         this.opaClient = opaClient != null ? opaClient : defaultOPAClient();
         this.opaPath = opaPath;
@@ -169,7 +180,11 @@ public class OPAAuthorizationManager implements AuthorizationManager<RequestAuth
     }
 
     @Override
-    public void verify(Supplier<Authentication> authenticationSupplier, RequestAuthorizationContext object) {
+    public void verify(Supplier<? extends Authentication> authenticationSupplier,
+                       @Nullable RequestAuthorizationContext object) {
+        if (object == null) {
+            throw new OPAAccessDeniedException("no request context");
+        }
         OPAResponse opaResponse = opaRequest(authenticationSupplier, object);
         if (opaResponse == null) {
             throw new OPAAccessDeniedException("null response from policy");
@@ -189,8 +204,12 @@ public class OPAAuthorizationManager implements AuthorizationManager<RequestAuth
     }
 
     @Override
-    public AuthorizationDecision check(Supplier<Authentication> authenticationSupplier,
-            RequestAuthorizationContext object) {
+    public AuthorizationDecision authorize(Supplier<? extends Authentication> authenticationSupplier,
+                                           @Nullable RequestAuthorizationContext object) {
+        if (object == null) {
+            LOGGER.trace("No request context, default-denying access");
+            return new OPAAuthorizationDecision(false, null);
+        }
         OPAResponse opaResponse = opaRequest(authenticationSupplier, object);
         if (opaResponse == null) {
             LOGGER.trace("OPA provided a null response, default-denying access");
@@ -207,7 +226,8 @@ public class OPAAuthorizationManager implements AuthorizationManager<RequestAuth
      * directly rather than using this method, as it should not be needed during
      * normal use.
      */
-    public OPAResponse opaRequest(Supplier<Authentication> authenticationSupplier, RequestAuthorizationContext object) {
+    public @Nullable OPAResponse opaRequest(Supplier<? extends Authentication> authenticationSupplier,
+                                            RequestAuthorizationContext object) {
         Map<String, Object> input = makeRequestInput(authenticationSupplier, object);
         LOGGER.trace("OPA input (request body) is: {}", input);
         try {
@@ -232,8 +252,8 @@ public class OPAAuthorizationManager implements AuthorizationManager<RequestAuth
         }
     }
 
-    private Map<String, Object> makeRequestInput(Supplier<Authentication> authenticationSupplier,
-            RequestAuthorizationContext object) {
+    private Map<String, Object> makeRequestInput(Supplier<? extends @Nullable Authentication> authenticationSupplier,
+                                                 RequestAuthorizationContext object) {
         HttpServletRequest request = object.getRequest();
 
         Object subjectId = null;
@@ -312,7 +332,7 @@ public class OPAAuthorizationManager implements AuthorizationManager<RequestAuth
      * calls
      * {@code map}.put({@code key}, {@code nullableValue}).
      */
-    private void nullablePut(Map<String, Object> map, String key, Object nullableValue) {
+    private void nullablePut(Map<String, Object> map, String key, @Nullable Object nullableValue) {
         Optional.ofNullable(nullableValue).ifPresent(value -> map.put(key, value));
     }
 

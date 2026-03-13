@@ -1,6 +1,7 @@
 package io.github.open_policy_agent.opa.springboot.input;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
 
@@ -30,6 +31,6 @@ public interface OPAInputActionCustomizer {
      *         <li>{@value InputConstants#ACTION_NAME}</li>
      *         </ul>
      */
-    Map<String, Object> customize(Authentication authentication,
+    Map<String, Object> customize(@Nullable Authentication authentication,
             RequestAuthorizationContext requestAuthorizationContext, Map<String, Object> action);
 }

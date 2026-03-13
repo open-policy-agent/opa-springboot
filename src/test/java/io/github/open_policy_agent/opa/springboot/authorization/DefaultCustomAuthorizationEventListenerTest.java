@@ -16,10 +16,10 @@ public class DefaultCustomAuthorizationEventListenerTest extends BaseAuthorizati
                 .andExpect(status().isForbidden());
 
         assertThat(getAuthorizationEventListener().getLastAuthorizationDeniedEvent()).isNotNull();
-        assertThat(getAuthorizationEventListener().getLastAuthorizationDeniedEvent().getAuthorizationDecision())
+        assertThat(getAuthorizationEventListener().getLastAuthorizationDeniedEvent().getAuthorizationResult())
                 .isInstanceOf(OPAAuthorizationDecision.class);
         var opaResponse = ((OPAAuthorizationDecision) getAuthorizationEventListener().getLastAuthorizationDeniedEvent()
-                .getAuthorizationDecision()).getOpaResponse();
+                .getAuthorizationResult()).getOpaResponse();
         assertThat(opaResponse.getDecision()).isEqualTo(false);
     }
 

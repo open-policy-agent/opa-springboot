@@ -10,5 +10,4 @@ RUN chmod +x /entrypoint.sh
 
 COPY --from=openpolicyagent/opa:latest-static /opa /usr/bin/opa
 
-ENTRYPOINT ["/entrypoint.sh"]
-
+ENTRYPOINT ["sh", "/entrypoint.sh"]
