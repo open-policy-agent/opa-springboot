@@ -1,4 +1,4 @@
-com.styra.opa.springboot
-com.styra.opa.springboot.authorization
-com.styra.opa.springboot.autoconfigure
-com.styra.opa.springboot.input
+io.github.open_policy_agent.opa.springboot
+io.github.open_policy_agent.opa.springboot.authorization
+io.github.open_policy_agent.opa.springboot.autoconfigure
+io.github.open_policy_agent.opa.springboot.input
