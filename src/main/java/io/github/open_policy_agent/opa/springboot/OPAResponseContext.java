@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.jspecify.annotations.Nullable;
 import org.springframework.security.authorization.AuthorizationDecision;
 
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ public class OPAResponseContext {
     @JsonProperty("reason_admin")
     private Map<String, String> reasonAdmin;
     @JsonProperty("reason_user")
+    @Nullable
     private Map<String, String> reasonUser;
     /**
      * The extra {@code data} field allows for the OPA policy to pass back arbitrary
@@ -44,7 +46,7 @@ public class OPAResponseContext {
      * lexicographically first from the {@code reasonUser}. It will not consider
      * data in the {@code reasonAdmin}.
      */
-    public String getReasonForDecision(String searchKey) {
+    public @Nullable String getReasonForDecision(String searchKey) {
         if (reasonUser == null) {
             return null;
         }

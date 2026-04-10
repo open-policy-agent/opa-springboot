@@ -77,7 +77,7 @@ class OPAAuthorizationManagerTest extends BaseIntegrationTest {
 
     /**
      * Make sure that with a simple always-allow rule, we allow all requests, using
-     * {@link OPAAuthorizationManager#check(Supplier, RequestAuthorizationContext)}.
+     * {@link OPAAuthorizationManager#authorize(Supplier, RequestAuthorizationContext)}.
      */
     @Test
     public void testOPAAuthorizationManagerSimpleAllow() {
@@ -85,13 +85,13 @@ class OPAAuthorizationManagerTest extends BaseIntegrationTest {
         when(authenticationSupplier.get()).thenReturn(mockAuth);
         var opaClient = new OPAClient(address, HEADERS);
         var opaAuthorizationManager = new OPAAuthorizationManager(opaClient, "policy/decision_always_true");
-        var actual = opaAuthorizationManager.check(authenticationSupplier, context);
+        var actual = opaAuthorizationManager.authorize(authenticationSupplier, context);
         assertTrue(actual.isGranted());
     }
 
     /**
      * Make sure that with a simple always-deny rule, we deny all requests, using
-     * {@link OPAAuthorizationManager#check(Supplier, RequestAuthorizationContext)}.
+     * {@link OPAAuthorizationManager#authorize(Supplier, RequestAuthorizationContext)}.
      */
     @Test
     public void testOPAAuthorizationManagerSimpleDeny() {
@@ -99,7 +99,7 @@ class OPAAuthorizationManagerTest extends BaseIntegrationTest {
         when(authenticationSupplier.get()).thenReturn(mockAuth);
         var opaClient = new OPAClient(address, HEADERS);
         var opaAuthorizationManager = new OPAAuthorizationManager(opaClient, "policy/decision_always_false");
-        var actual = opaAuthorizationManager.check(authenticationSupplier, context);
+        var actual = opaAuthorizationManager.authorize(authenticationSupplier, context);
         assertFalse(actual.isGranted());
     }
 

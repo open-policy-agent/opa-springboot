@@ -12,6 +12,7 @@ import static io.github.open_policy_agent.opa.springboot.input.InputConstants.SU
 import static io.github.open_policy_agent.opa.springboot.input.InputConstants.SUBJECT_TYPE;
 import static java.lang.String.format;
 
+import org.jspecify.annotations.Nullable;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
@@ -42,8 +43,9 @@ public final class OPAInputValidator {
      *                               {@value InputConstants#CONTEXT_TYPE}</li>
      *                               </ul>
      */
-    public void validate(Authentication authentication, RequestAuthorizationContext requestAuthorizationContext,
-            Map<String, Object> input) throws AccessDeniedException {
+    public void validate(@Nullable Authentication authentication,
+                         RequestAuthorizationContext requestAuthorizationContext,
+                         Map<String, Object> input) throws AccessDeniedException {
         validateKey(input, SUBJECT, SUBJECT_TYPE);
         validateKey(input, SUBJECT, SUBJECT_ID);
         validateKey(input, RESOURCE, RESOURCE_TYPE);

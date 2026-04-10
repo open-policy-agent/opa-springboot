@@ -34,10 +34,10 @@ public class ModifiedCustomAuthorizationEventListenerTest extends BaseAuthorizat
                 .andExpect(status().isOk());
 
         assertThat(getAuthorizationEventListener().getLastAuthorizationGrantedEvent()).isNotNull();
-        assertThat(getAuthorizationEventListener().getLastAuthorizationGrantedEvent().getAuthorizationDecision())
+        assertThat(getAuthorizationEventListener().getLastAuthorizationGrantedEvent().getAuthorizationResult())
                 .isInstanceOf(OPAAuthorizationDecision.class);
         var opaResponse = ((OPAAuthorizationDecision) getAuthorizationEventListener().getLastAuthorizationGrantedEvent()
-                .getAuthorizationDecision()).getOpaResponse();
+                .getAuthorizationResult()).getOpaResponse();
         assertThat(opaResponse.getDecision()).isEqualTo(true);
         assertThat(opaResponse.getContext()).isNotNull();
         assertThat(opaResponse.getContext().getData().get(SUBJECT)).isNotNull();

@@ -14,5 +14,5 @@ import java.util.function.Supplier;
  */
 @FunctionalInterface
 public interface ContextDataProvider {
-    Object getContextData(Supplier<Authentication> authentication, RequestAuthorizationContext object);
+    Object getContextData(Supplier<? extends Authentication> authentication, RequestAuthorizationContext object);
 }
