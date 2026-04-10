@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+## 2.0.0
+
+This release includes a breaking change: updating to [Spring Boot 4.0.3](https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-4.0-Release-Notes).
+Also included are dependency updates and CI improvements.
+
+
 ## 1.0.1, 1.0.2, 1.0.3, 1.0.4, 1.0.5
 
 These releases include release engineering improvements, with no significant code or dependency changes.
