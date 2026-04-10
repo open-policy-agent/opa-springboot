@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+## 2.0.1
+
+This release fixes a Github Actions workflow bug that broke docs publishing.
+
+
 ## 2.0.0
 
 This release includes a breaking change: updating to [Spring Boot 4.0.3](https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-4.0-Release-Notes).

@@ -12,16 +12,17 @@ jobs:
   docs:
     name: Docs Build and Publish
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # Needed for pushing changes to Github Pages.
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
-          persist-credentials: false
+          persist-credentials: true # Needed for the Github Pages deployment.
       - name: Set up Java
         uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5.2.0
         with:
           java-version: "17"
           distribution: "corretto"
-          cache: "gradle"
       - uses: gradle/actions/setup-gradle@50e97c2cd7a37755bbfafc9c5b7cafaece252f6e # v6.1.0
         with:
           cache-disabled: true
